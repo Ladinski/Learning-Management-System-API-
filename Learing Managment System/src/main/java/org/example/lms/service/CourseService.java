@@ -45,10 +45,19 @@ public class CourseService {
     public Course updateCourse(Long id, Course updatedCourse) {
         return courseRepository.findById(id)
                 .map(course -> {
-                    User newInstructor = updatedCourse.getInstructor();
-                    if (newInstructor == null || !newInstructor.isInstructor()) {
+                    User newInstructorInput = updatedCourse.getInstructor();
+                    if (newInstructorInput == null || newInstructorInput.getId() == null) {
+                        throw new RuntimeException("Instructor ID must be provided");
+                    }
+
+                    // ✅ Fetch the full user entity from the DB
+                    User newInstructor = userRepository.findById(newInstructorInput.getId())
+                            .orElseThrow(() -> new RuntimeException("Instructor not found"));
+
+                    if (!newInstructor.isInstructor()) {
                         throw new RuntimeException("Updated instructor must be an instructor");
                     }
+
                     course.setTitle(updatedCourse.getTitle());
                     course.setDescription(updatedCourse.getDescription());
                     course.setInstructor(newInstructor);
@@ -56,6 +65,7 @@ public class CourseService {
                 })
                 .orElse(null);
     }
+
 
     public void deleteCourse(Long id) {
         courseRepository.deleteById(id);
