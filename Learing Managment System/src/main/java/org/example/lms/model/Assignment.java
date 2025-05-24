@@ -1,7 +1,7 @@
 package org.example.lms.model;
 
 import jakarta.persistence.*;
-import java.util.List;
+
 
 @Entity
 public class Assignment {
@@ -16,8 +16,7 @@ public class Assignment {
     @ManyToOne
     private Course course;
 
-    @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL)
-    private List<Submission> submissions;
+
 
     public Assignment() {}
 
@@ -41,7 +40,5 @@ public class Assignment {
 
     public void setCourse(Course course) { this.course = course; }
 
-    public List<Submission> getSubmissions() { return submissions; }
 
-    public void setSubmissions(List<Submission> submissions) { this.submissions = submissions; }
 }

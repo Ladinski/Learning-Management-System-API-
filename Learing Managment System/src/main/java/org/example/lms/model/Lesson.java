@@ -19,13 +19,7 @@ public class Lesson {
     @ManyToOne
     private Course course;
 
-    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("lesson")
-    private List<Assignment> assignments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("lesson")
-    private List<Submission> submissions = new ArrayList<>();
 
     public Lesson() {}
 
@@ -51,19 +45,5 @@ public class Lesson {
     public void setCourse(Course course) { this.course = course; }
 
 
-    public List<Assignment> getAssignments() {
-        return assignments;
-    }
 
-    public void setAssignments(List<Assignment> assignments) {
-        this.assignments = assignments;
-    }
-
-    public List<Submission> getSubmissions() {
-        return submissions;
-    }
-
-    public void setSubmissions(List<Submission> submissions) {
-        this.submissions = submissions;
-    }
 }
