@@ -38,4 +38,9 @@ public class CourseController {
     public Course updateCourse(@PathVariable Long id, @RequestBody Course course) {
         return courseService.updateCourse(id, course);
     }
+
+    @PostMapping("/{courseId}/enroll/{studentId}")
+    public String enrollStudent(@PathVariable Long courseId, @PathVariable Long studentId) {
+        return courseService.enrollStudent(courseId, studentId);
+    }
 }

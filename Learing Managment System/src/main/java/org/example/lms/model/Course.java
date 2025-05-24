@@ -1,5 +1,6 @@
 package org.example.lms.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -14,9 +15,11 @@ public class Course {
     private String description;
 
     @ManyToOne
+    @JsonIgnoreProperties({"coursesTeaching", "coursesEnrolled"})
     private User instructor;
 
     @ManyToMany
+    @JsonIgnoreProperties({"coursesTeaching", "coursesEnrolled"})
     private List<User> students;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
