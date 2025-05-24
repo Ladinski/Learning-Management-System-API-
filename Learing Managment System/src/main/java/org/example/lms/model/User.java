@@ -27,6 +27,7 @@ public class User {
 
 
     @ManyToMany(mappedBy = "students")
+    @JsonIgnoreProperties({"students", "instructor", "lessons", "description", "assignments"})
     private List<Course> coursesEnrolled;
 
 
