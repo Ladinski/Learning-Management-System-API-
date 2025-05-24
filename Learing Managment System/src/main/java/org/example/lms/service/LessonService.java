@@ -2,8 +2,10 @@ package org.example.lms.service;
 
 import org.example.lms.model.Course;
 import org.example.lms.model.Lesson;
+import org.example.lms.model.User;
 import org.example.lms.repository.CourseRepository;
 import org.example.lms.repository.LessonRepository;
+import org.example.lms.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,9 @@ public class LessonService {
     @Autowired
     private CourseRepository courseRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public List<Lesson> getAllLessons() {
         return lessonRepository.findAll();
     }
@@ -27,14 +32,30 @@ public class LessonService {
         return lessonRepository.findByCourseId(courseId);
     }
 
-    public Lesson createLesson(Long courseId, Lesson lesson) {
-        Optional<Course> courseOpt = courseRepository.findById(courseId);
-        if (courseOpt.isPresent()) {
-            lesson.setCourse(courseOpt.get());
-            return lessonRepository.save(lesson);
+    public String createLesson(Long courseId, Lesson lesson) {
+        Long instructorId = lesson.getUserId();
+
+        User instructor = userRepository.findById(instructorId).orElse(null);
+        if (instructor == null || !instructor.isInstructor()) {
+            return "Only an instructor can create lessons";
         }
-        return null;
+
+        Course course = courseRepository.findById(courseId).orElse(null);
+        if (course == null) {
+            return "Course not found";
+        }
+
+        if (!course.getInstructor().getId().equals(instructorId)) {
+            return "User is not the instructor of this course";
+        }
+
+        lesson.setCourse(course);
+        lessonRepository.save(lesson);
+        return "Lesson created successfully";
     }
+
+
+
 
     public Lesson getLessonById(Long id) {
         return lessonRepository.findById(id).orElseThrow(() -> new RuntimeException("Lesson not found with id " + id));

@@ -1,10 +1,10 @@
 package org.example.lms.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
 public class Lesson {
@@ -16,7 +16,14 @@ public class Lesson {
     private String title;
     private String content;
 
+
+    @Transient
+    @JsonIgnore
+    private Long userId;
+
     @ManyToOne
+    @JoinColumn(name = "course_id")
+    @JsonIgnoreProperties({"lessons", "description", "instructor", "assignments","students"})
     private Course course;
 
 
@@ -43,6 +50,14 @@ public class Lesson {
     public Course getCourse() { return course; }
 
     public void setCourse(Course course) { this.course = course; }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
 
 

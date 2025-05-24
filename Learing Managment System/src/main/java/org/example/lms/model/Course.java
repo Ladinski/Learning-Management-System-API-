@@ -2,6 +2,8 @@ package org.example.lms.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,7 +25,9 @@ public class Course {
     private List<User> students;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Lesson> lessons;
+    @JsonIgnoreProperties({"content", "userId", "course"})
+    private List<Lesson> lessons = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Assignment> assignments;
@@ -57,6 +61,12 @@ public class Course {
     public void setStudents(List<User> students) { this.students = students; }
 
     public List<Lesson> getLessons() { return lessons; }
+
+
+    public void addLesson(Lesson lesson) {
+        lessons.add(lesson);
+        lesson.setCourse(this);
+    }
 
     public void setLessons(List<Lesson> lessons) { this.lessons = lessons; }
 

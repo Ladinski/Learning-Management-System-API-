@@ -14,11 +14,11 @@ public class LessonController {
     @Autowired
     private LessonService lessonService;
 
-
-    @PostMapping("/course/{courseId}")
-    public Lesson createLesson(@PathVariable Long courseId, @RequestBody Lesson lesson) {
+    @PostMapping("/courses/{courseId}/lessons")
+    public String createLesson(@PathVariable Long courseId, @RequestBody Lesson lesson) {
         return lessonService.createLesson(courseId, lesson);
     }
+
 
     @GetMapping
     public List<Lesson> getAllLessons() {
