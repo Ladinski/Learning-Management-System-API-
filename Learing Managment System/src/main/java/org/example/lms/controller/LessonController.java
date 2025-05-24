@@ -3,7 +3,6 @@ package org.example.lms.controller;
 import org.example.lms.model.Lesson;
 import org.example.lms.service.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,11 +15,9 @@ public class LessonController {
     private LessonService lessonService;
 
 
-    @PostMapping("/create/{courseId}/instructor/{instructorId}")
-    public ResponseEntity<?> createLesson(@PathVariable Long courseId,
-                                          @PathVariable Long instructorId,
-                                          @RequestBody Lesson lesson) {
-        return lessonService.createLesson(courseId, lesson, instructorId);
+    @PostMapping("/course/{courseId}")
+    public Lesson createLesson(@PathVariable Long courseId, @RequestBody Lesson lesson) {
+        return lessonService.createLesson(courseId, lesson);
     }
 
     @GetMapping
