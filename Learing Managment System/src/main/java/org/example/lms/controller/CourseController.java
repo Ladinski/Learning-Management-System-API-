@@ -15,7 +15,7 @@ public class CourseController {
     private CourseService courseService;
 
     @PostMapping
-    public Course createCourse(@RequestBody Course course) {
+    public String createCourse(@RequestBody Course course) {
         return courseService.createCourse(course);
     }
 
@@ -35,7 +35,7 @@ public class CourseController {
     }
 
     @PutMapping("/{id}")
-    public Course updateCourse(@PathVariable Long id, @RequestBody Course course) {
+    public String updateCourse(@PathVariable Long id, @RequestBody Course course) {
         return courseService.updateCourse(id, course);
     }
 

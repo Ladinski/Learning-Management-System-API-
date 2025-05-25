@@ -1,6 +1,7 @@
 package org.example.lms.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -15,16 +16,16 @@ public class Assignment {
     private String title;
     private String content;
     private LocalDateTime submittedAt;
+    private String studentName;
 
     @ManyToOne
     @JoinColumn(name = "lesson_id")
-    @JsonIgnoreProperties({"content", "userId", "course"})
+    @JsonIgnoreProperties({"content", "userId", "course", "assignments"})
     private Lesson lesson;
 
-    @ManyToOne
-    @JoinColumn(name = "student_id")
-    @JsonIgnoreProperties({"isInstructor", "coursesTeaching", "coursesEnrolled"})
-    private User student;
+
+    @Transient
+    private Long userId;
 
     public Assignment() {
         this.submittedAt = LocalDateTime.now();
@@ -45,6 +46,19 @@ public class Assignment {
     public Lesson getLesson() { return lesson; }
     public void setLesson(Lesson lesson) { this.lesson = lesson; }
 
-    public User getStudent() { return student; }
-    public void setStudent(User student) { this.student = student; }
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
 }

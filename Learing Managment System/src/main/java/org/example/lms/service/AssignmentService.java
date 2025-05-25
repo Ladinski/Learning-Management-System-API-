@@ -29,14 +29,15 @@ public class AssignmentService {
         if (lesson == null) {
             return "Lesson not found";
         }
-
-        User student = userRepository.findById(assignment.getStudent().getId()).orElse(null);
-        if (student == null || !student.isInstructor()) {
+        Long StudentId = assignment.getUserId();
+        User student = userRepository.findById(StudentId).orElse(null);
+        if (student == null || student.isInstructor()) {
             return "Only students can submit assignments";
         }
 
         assignment.setLesson(lesson);
-        assignment.setStudent(student);
+        assignment.setUserId(student.getId());
+        assignment.setStudentName(student.getName());
         assignment.setSubmittedAt(LocalDateTime.now());
 
         assignmentRepository.save(assignment);

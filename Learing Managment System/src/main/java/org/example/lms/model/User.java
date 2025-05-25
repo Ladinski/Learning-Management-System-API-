@@ -32,9 +32,7 @@ public class User {
     private List<Course> coursesEnrolled;
 
 
-    @OneToMany(mappedBy = "student")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<Assignment> assignments;
+
 
 
     public User() {}
@@ -91,11 +89,5 @@ public class User {
         }
     }
 
-    public List<Assignment> getAssignments() {
-        return assignments;
-    }
 
-    public void setAssignments(List<Assignment> assignments) {
-        this.assignments = assignments;
-    }
 }

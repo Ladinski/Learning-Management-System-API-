@@ -30,40 +30,45 @@ public class CourseService {
     }
 
 
-    public Course createCourse(Course course) {
+    public String createCourse(Course course) {
         Long instructorId = course.getInstructor().getId();
 
         User instructor = userRepository.findById(instructorId).orElse(null);
         if (instructor == null || !instructor.isInstructor()) {
-            throw new RuntimeException("Only an instructor can create courses");
+            return "Only an instructor can create courses";
         }
 
         course.setInstructor(instructor);
-        return courseRepository.save(course);
+        courseRepository.save(course);
+        return "Course created successfully";
     }
 
-    public Course updateCourse(Long id, Course updatedCourse) {
+    public String updateCourse(Long id, Course updatedCourse) {
         return courseRepository.findById(id)
                 .map(course -> {
                     User newInstructorInput = updatedCourse.getInstructor();
                     if (newInstructorInput == null || newInstructorInput.getId() == null) {
-                        throw new RuntimeException("Instructor ID must be provided");
+                        return "Instructor ID must be provided";
                     }
 
-                    // ✅ Fetch the full user entity from the DB
                     User newInstructor = userRepository.findById(newInstructorInput.getId())
-                            .orElseThrow(() -> new RuntimeException("Instructor not found"));
+                            .orElse(null);
+                    if (newInstructor == null) {
+                        return "Instructor not found";
+                    }
 
                     if (!newInstructor.isInstructor()) {
-                        throw new RuntimeException("Updated instructor must be an instructor");
+                        return "Updated instructor must be an instructor";
                     }
 
                     course.setTitle(updatedCourse.getTitle());
                     course.setDescription(updatedCourse.getDescription());
                     course.setInstructor(newInstructor);
-                    return courseRepository.save(course);
+                    courseRepository.save(course);
+
+                    return "Course updated successfully";
                 })
-                .orElse(null);
+                .orElse("Course not found");
     }
 
 
@@ -76,11 +81,11 @@ public class CourseService {
         User student = userRepository.findById(studentId).orElse(null);
 
         if (course == null || student == null) {
-            return "{\"error\": \"Course or Student was not found\"}";
+            return "Course or Student was not found";
         }
 
         if (student.isInstructor()) {
-            return "{\"error\": \"User is an instructor, cannot enroll as student\"}";
+            return "User is an instructor, cannot enroll as student";
         }
 
         if (course.getStudents() == null) {
@@ -91,18 +96,18 @@ public class CourseService {
         if (!course.getStudents().contains(student)) {
             course.getStudents().add(student);
         } else {
-            return "{\"info\": \"Student already enrolled\"}";
+            return "Student already enrolled";
         }
 
         if (!student.getCoursesEnrolled().contains(course)) {
             student.addCourseEnrolled(course);
         }
 
-        // Save both entities to keep DB consistent
+
         courseRepository.save(course);
         userRepository.save(student);
 
-        return "{\"success\": \"Student enrolled successfully\"}";
+        return "Student enrolled successfully";
     }
 
 

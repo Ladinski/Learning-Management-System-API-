@@ -37,7 +37,7 @@ public class LessonService {
 
         User instructor = userRepository.findById(instructorId).orElse(null);
         if (instructor == null || !instructor.isInstructor()) {
-            return "Only an instructor can create lessons";
+            return "Either instructor doesn't exist or the user is a student";
         }
 
         Course course = courseRepository.findById(courseId).orElse(null);
