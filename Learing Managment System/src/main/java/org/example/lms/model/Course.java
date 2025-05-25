@@ -29,8 +29,7 @@ public class Course {
     private List<Lesson> lessons = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Assignment> assignments;
+
 
 
     public Course() {}
@@ -70,7 +69,5 @@ public class Course {
 
     public void setLessons(List<Lesson> lessons) { this.lessons = lessons; }
 
-    public List<Assignment> getAssignments() { return assignments; }
 
-    public void setAssignments(List<Assignment> assignments) { this.assignments = assignments; }
 }

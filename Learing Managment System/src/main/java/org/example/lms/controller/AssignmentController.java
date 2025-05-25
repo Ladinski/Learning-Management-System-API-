@@ -8,34 +8,29 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/assignments")
+@RequestMapping("/lessons/{lessonId}/assignments")
 public class AssignmentController {
 
     @Autowired
     private AssignmentService assignmentService;
 
-    @PostMapping("/course/{courseId}")
-    public Assignment createAssignment(@PathVariable Long courseId, @RequestBody Assignment assignment) {
-        return assignmentService.createAssignment(courseId, assignment);
+    @PostMapping
+    public String submitAssignment(@PathVariable Long lessonId, @RequestBody Assignment assignment) {
+        return assignmentService.submitAssignment(lessonId, assignment);
     }
 
     @GetMapping
-    public List<Assignment> getAllAssignments() {
-        return assignmentService.getAllAssignments();
+    public List<Assignment> getAssignmentsByLesson(@PathVariable Long lessonId) {
+        return assignmentService.getAssignmentsByLesson(lessonId);
     }
 
-    @GetMapping("/{id}")
-    public Assignment getAssignment(@PathVariable Long id) {
-        return assignmentService.getAssignmentById(id);
+    @GetMapping("/{assignmentId}")
+    public Assignment getAssignmentById(@PathVariable Long assignmentId) {
+        return assignmentService.getAssignmentById(assignmentId);
     }
 
-    @PutMapping("/{id}")
-    public Assignment updateAssignment(@PathVariable Long id, @RequestBody Assignment assignment) {
-        return assignmentService.updateAssignment(id, assignment);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteAssignment(@PathVariable Long id) {
-        assignmentService.deleteAssignment(id);
+    @DeleteMapping("/{assignmentId}")
+    public void deleteAssignment(@PathVariable Long assignmentId) {
+        assignmentService.deleteAssignment(assignmentId);
     }
 }

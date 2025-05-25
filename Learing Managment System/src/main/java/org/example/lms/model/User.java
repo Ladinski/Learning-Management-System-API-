@@ -1,6 +1,7 @@
 package org.example.lms.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -29,6 +30,11 @@ public class User {
     @ManyToMany(mappedBy = "students")
     @JsonIgnoreProperties({"students", "instructor", "lessons", "description", "assignments"})
     private List<Course> coursesEnrolled;
+
+
+    @OneToMany(mappedBy = "student")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Assignment> assignments;
 
 
     public User() {}
@@ -83,5 +89,13 @@ public class User {
         if (!coursesEnrolled.contains(course)) {
             coursesEnrolled.add(course);
         }
+    }
+
+    public List<Assignment> getAssignments() {
+        return assignments;
+    }
+
+    public void setAssignments(List<Assignment> assignments) {
+        this.assignments = assignments;
     }
 }
