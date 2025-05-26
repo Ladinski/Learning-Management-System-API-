@@ -53,7 +53,16 @@ public class AssignmentService {
         return assignmentRepository.findById(id).orElse(null);
     }
 
-    public void deleteAssignment(Long id) {
+    public String deleteAssignment(Long id, Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if(user == null){
+            return "No such user exists";
+        } else if (user.isInstructor()) {
+            return "Instructors cannot delete assignment submissions!";
+        } else if (!assignmentRepository.existsById(id)) {
+            return "Assignment not found";
+        }
         assignmentRepository.deleteById(id);
+        return "Assignment deleted successfully";
     }
 }

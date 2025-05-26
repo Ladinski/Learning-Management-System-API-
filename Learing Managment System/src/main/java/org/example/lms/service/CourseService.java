@@ -34,7 +34,10 @@ public class CourseService {
         Long instructorId = course.getInstructor().getId();
 
         User instructor = userRepository.findById(instructorId).orElse(null);
-        if (instructor == null || !instructor.isInstructor()) {
+        if(instructor == null ){
+            return "No user found by that id";
+        }
+        else if (!instructor.isInstructor()) {
             return "Only an instructor can create courses";
         }
 
@@ -72,8 +75,17 @@ public class CourseService {
     }
 
 
-    public void deleteCourse(Long id) {
+    public String deleteCourse(Long id, Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if(user == null){
+            return "No such user exists";
+        } else if (!user.isInstructor()) {
+            return "Students cannot delete courses!";
+        } else if (!courseRepository.existsById(id)) {
+            return "Course not found";
+        }
         courseRepository.deleteById(id);
+        return "Course deleted successfully";
     }
 
     public String enrollStudent(Long courseId, Long studentId) {
@@ -109,7 +121,25 @@ public class CourseService {
 
         return "Student enrolled successfully";
     }
+    public String updateInstructor(Long courseId, Long newInstructorId) {
+        Course course = courseRepository.findById(courseId).orElse(null);
+        User newInstructor = userRepository.findById(newInstructorId).orElse(null);
 
+        if (course == null) {
+            return "Course not found";
+        }
+        if (newInstructor == null) {
+            return "Instructor not found";
+        }
+        if (!newInstructor.isInstructor()) {
+            return "User is not an instructor";
+        }
+
+        course.setInstructor(newInstructor);
+        courseRepository.save(course);
+
+        return "Instructor updated successfully";
+    }
 
 
 }

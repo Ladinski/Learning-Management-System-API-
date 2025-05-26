@@ -29,9 +29,9 @@ public class CourseController {
         return courseService.getCourseById(id);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteCourse(@PathVariable Long id) {
-        courseService.deleteCourse(id);
+    @DeleteMapping("/{id}/user/{userId}")
+    public String deleteCourse(@PathVariable Long id, @PathVariable Long userId) {
+        return courseService.deleteCourse(id, userId);
     }
 
     @PutMapping("/{id}")
@@ -42,5 +42,10 @@ public class CourseController {
     @PostMapping("/{courseId}/enroll/{studentId}")
     public String enrollStudent(@PathVariable Long courseId, @PathVariable Long studentId) {
         return courseService.enrollStudent(courseId, studentId);
+    }
+
+    @PatchMapping("/{courseId}/user/{instructorId}")
+    public String updateInstructor(@PathVariable Long courseId, @PathVariable Long instructorId) {
+        return courseService.updateInstructor(courseId, instructorId);
     }
 }

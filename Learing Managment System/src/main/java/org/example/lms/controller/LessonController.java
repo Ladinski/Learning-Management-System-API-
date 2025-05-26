@@ -30,8 +30,8 @@ public class LessonController {
         return lessonService.getLessonById(id);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteLesson(@PathVariable Long id) {
-        lessonService.deleteLesson(id);
+    @DeleteMapping("/{id}/user/{userId}")
+    public String deleteLesson(@PathVariable Long id, @PathVariable Long userId) {
+        return lessonService.deleteLesson(id, userId);
     }
 }

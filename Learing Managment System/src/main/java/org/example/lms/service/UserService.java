@@ -36,7 +36,8 @@ public class UserService {
                 }).orElse(null);
     }
 
-    public void deleteUser(Long id) {
+    public String deleteUser(Long id) {
         userRepository.deleteById(id);
+        return "User deleted successfully";
     }
 }

@@ -69,7 +69,16 @@ public class LessonService {
         }).orElse(null);
     }
 
-    public void deleteLesson(Long id) {
+    public String deleteLesson(Long id, Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if(user == null){
+            return "No such user exists";
+        } else if (!user.isInstructor()) {
+            return "Students cannot delete Lessons!";
+        } else if (!lessonRepository.existsById(id)) {
+            return "Lesson not found";
+        }
         lessonRepository.deleteById(id);
+        return "Lesson deleted successfully";
     }
 }

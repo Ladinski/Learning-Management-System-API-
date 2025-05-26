@@ -29,8 +29,8 @@ public class AssignmentController {
         return assignmentService.getAssignmentById(assignmentId);
     }
 
-    @DeleteMapping("/{assignmentId}")
-    public void deleteAssignment(@PathVariable Long assignmentId) {
-        assignmentService.deleteAssignment(assignmentId);
+    @DeleteMapping("/{assignmentId}/user/{userId}")
+    public String deleteAssignment(@PathVariable Long assignmentId, @PathVariable Long userId) {
+        return assignmentService.deleteAssignment(assignmentId, userId);
     }
 }
