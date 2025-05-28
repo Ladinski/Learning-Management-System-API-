@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 public class Lesson {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,7 +44,7 @@ public class Lesson {
         this.course = course;
         this.homework = homework;
     }
-
+     //Getters and Setters
     public void setHomework(String homework){
         this.homework = homework;
     }

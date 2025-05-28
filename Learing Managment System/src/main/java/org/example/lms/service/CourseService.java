@@ -20,16 +20,19 @@ public class CourseService {
     @Autowired
     private UserRepository userRepository;
 
+
     public List<Course> getAllCourses() {
         return courseRepository.findAll();
     }
+
+
 
     public Course getCourseById(Long id) {
         return courseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Course not found with id " + id));
     }
 
-
+    //Creates a new course if the user is a valid instructor.
     public String createCourse(Course course) {
         Long instructorId = course.getInstructor().getId();
 
@@ -46,6 +49,8 @@ public class CourseService {
         return "Course created successfully";
     }
 
+
+    //Updates a course if the user is a valid instructor.
     public String updateCourse(Long id, Course updatedCourse) {
         return courseRepository.findById(id)
                 .map(course -> {
@@ -74,7 +79,7 @@ public class CourseService {
                 .orElse("Course not found");
     }
 
-
+    //Deletes course by id only if the user deleting it is an instructor
     public String deleteCourse(Long id, Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         if(user == null){
@@ -88,6 +93,8 @@ public class CourseService {
         return "Course deleted successfully";
     }
 
+
+    //Enrolls student in course
     public String enrollStudent(Long courseId, Long studentId) {
         Course course = courseRepository.findById(courseId).orElse(null);
         User student = userRepository.findById(studentId).orElse(null);
@@ -121,6 +128,8 @@ public class CourseService {
 
         return "Student enrolled successfully";
     }
+
+    //Changes an instructor for a course
     public String updateInstructor(Long courseId, Long newInstructorId) {
         Course course = courseRepository.findById(courseId).orElse(null);
         User newInstructor = userRepository.findById(newInstructorId).orElse(null);

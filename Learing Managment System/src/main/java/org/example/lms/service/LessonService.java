@@ -32,6 +32,7 @@ public class LessonService {
         return lessonRepository.findByCourseId(courseId);
     }
 
+    //Create a lesson only if the user creating it is a instructor
     public String createLesson(Long courseId, Lesson lesson) {
         Long instructorId = lesson.getUserId();
 
@@ -61,6 +62,8 @@ public class LessonService {
         return lessonRepository.findById(id).orElseThrow(() -> new RuntimeException("Lesson not found with id " + id));
     }
 
+
+    //Updates changes to the lesson
     public Lesson updateLesson(Long id, Lesson updatedLesson) {
         return lessonRepository.findById(id).map(lesson -> {
             lesson.setTitle(updatedLesson.getTitle());
@@ -69,6 +72,8 @@ public class LessonService {
         }).orElse(null);
     }
 
+
+    //Deletes lessons by id only if the user deleting it is an instructor
     public String deleteLesson(Long id, Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         if(user == null){

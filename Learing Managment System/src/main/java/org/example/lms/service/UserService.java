@@ -26,6 +26,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    //Updates a specific user by id
     public User updateUser(Long id, User updatedUser) {
         return userRepository.findById(id)
                 .map(user -> {

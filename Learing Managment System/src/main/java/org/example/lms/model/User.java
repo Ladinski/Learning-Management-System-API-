@@ -11,6 +11,7 @@ import java.util.List;
 @Table(name = "users")
 public class User {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,7 +44,7 @@ public class User {
         this.isInstructor = isInstructor;
     }
 
-
+    //Getters and Setters
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }

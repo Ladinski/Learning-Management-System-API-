@@ -23,7 +23,7 @@ public class Assignment {
     @JsonIgnoreProperties({"content", "userId", "course", "assignments"})
     private Lesson lesson;
 
-
+    // For user id
     @Transient
     private Long userId;
 

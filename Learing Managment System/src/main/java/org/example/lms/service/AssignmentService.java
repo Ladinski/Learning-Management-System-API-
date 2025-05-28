@@ -24,6 +24,8 @@ public class AssignmentService {
     @Autowired
     private UserRepository userRepository;
 
+
+    //Submits an assignment for a specific lesson only if the user submitting it is a student
     public String submitAssignment(Long lessonId, Assignment assignment) {
         Lesson lesson = lessonRepository.findById(lessonId).orElse(null);
         if (lesson == null) {
@@ -31,9 +33,11 @@ public class AssignmentService {
         }
         Long StudentId = assignment.getUserId();
         User student = userRepository.findById(StudentId).orElse(null);
+
         if (student == null || student.isInstructor()) {
             return "Only students can submit assignments";
         }
+
 
         assignment.setLesson(lesson);
         assignment.setUserId(student.getId());
@@ -44,17 +48,23 @@ public class AssignmentService {
         return "Assignment submitted";
     }
 
+
     public List<Assignment> getAssignmentsByLesson(Long lessonId) {
         Lesson lesson = lessonRepository.findById(lessonId).orElse(null);
         return (lesson != null) ? lesson.getAssignments() : List.of();
     }
 
+
     public Assignment getAssignmentById(Long id) {
         return assignmentRepository.findById(id).orElse(null);
     }
 
+
+
+    //Deletes assignment by id only if the user deleting it is an student
     public String deleteAssignment(Long id, Long userId) {
         User user = userRepository.findById(userId).orElse(null);
+
         if(user == null){
             return "No such user exists";
         } else if (user.isInstructor()) {

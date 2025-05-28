@@ -9,6 +9,7 @@ import java.util.List;
 @Entity
 public class Course {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,6 +41,7 @@ public class Course {
         this.instructor = instructor;
     }
 
+    //Getters and Setters
 
     public Long getId() { return id; }
 
