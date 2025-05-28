@@ -4,6 +4,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+//This configuration registers the ApiKeyFilter to secure all endpoints
 @Configuration
 public class SecurityConfig {
 
@@ -11,7 +12,7 @@ public class SecurityConfig {
     public FilterRegistrationBean<ApiKeyFilter> apiKeyFilterRegistration(ApiKeyFilter filter) {
         FilterRegistrationBean<ApiKeyFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(filter);
-        registrationBean.addUrlPatterns("/api/*"); // apply to your desired endpoints
+        registrationBean.addUrlPatterns("/api/*");
         return registrationBean;
     }
 
